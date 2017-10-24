@@ -1,0 +1,17 @@
+Programmando in Prolog, specialmente definendo delle relazioni, è bene identificare dei predicati intermedi intelligenti.
+Ad esempio grandparent(X, Y) avrebbe bisogno di quatro righe:
+   grandparent(X, Y) :- father(X, Z), father(Z, Y).
+   grandparent(X, Y) :- father(X, Z), mother(Z, Y).
+   grandparent(X, Y) :- mother(X, Z), father(Z, Y).
+   grandparent(X, Y) :- mother(X, Z), mother(Z, Y).
+
+queste regole, pur essendo corrette, sono inutilmente lunghe. è molto più pratico definire una relazione intermedia di 
+genitore che riduce le regole a 
+
+  parent(X, Y) :- father(X, Y).
+  parent(X, Y) :- mother(X, Y).
+  
+  grandparent :- parent(X, Z), parent(Z, Y).
+  son(X, Y) :- parent(Y, X), male(X). %%% per esempio %%%
+  
+  una collezione di regole con lo stesso predicato, come nel caso dei parent, è chiamata procedura.
