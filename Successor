@@ -1,0 +1,21 @@
+tree_successor(K, tree(_Name, Root), KV) :-
+    tree_successor(K, Root, KV).
+
+tree_successor(K, node(KRoot, VRoot, LRoot, RRoot), (SK, SV)) :-
+    subtree_successor(node(KRoot, VRoot, LRoot, RRoot), node(KRoot, VRoot, LRoot, RRoot), node(SK, SV)),
+    tree_search(K, node(KRoot, VRoot, LRoot, RRoot), node(K, _, _, void)),
+    subtree_successor(node(_, _, _, R), node(Sk, SV, _, _)).
+
+tree_successor(K, node(KRoot, VRoot, LRoot, RRoot), (SK, SV)) :-
+    tree_search(K, node(KRoot, VRoot, LRoot, RRoot), node(K, _, _, R)),
+    R \= void,
+    subtree_successor(node(_, _, _, R), node(Sk, SV, _, _)).
+
+subtree_successor(node(_, _, _, node(KR, VR, void, RR)), node(KR, Vr, void, RR)).
+subtree_successor(node(_, _, _, node(_, _, L, _)), node(SK, SV, SL, SR)) :-
+    subtree_successor_l(L, node(SK, SV, SL, SR)).
+
+subtree_successor_l(node(SK, SV, void, SR), node(SK, SV, void, SR)).
+subtree_successor_l(node(_, _, L, _), node(SK, SV, void, SR)) :-
+    L \= void,
+    subtree_successor_l(L, node(SK, SV, void, SR)).
